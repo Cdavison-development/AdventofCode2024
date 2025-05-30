@@ -122,6 +122,52 @@ bool isArrayAdjacent(vector<int> values){
             }
     return isAdjacent;
 }
+
+//need to be able to take the vectors that do not pass the initial test and attempt to remove single bad level to make it safe
+
+//most likely will bruteforce
+
+bool isVectorRedeemable(vector<int> values){
+    //easy way: iterate through the vector, remove vector[i] and run isAdjacent and IsSorted tests. costly
+
+    // this might mess with the vector.size() function in isAdjacent, be sure to handle correctly.
+
+    // use a temporary vector that will store all values other than i and check for correctness
+    vector<int> tempValues;
+    bool isRedeemable;
+    for(int i = 0; i < values.size();i++){
+        //for each i, initialise the temp Values vector as equal to the values vector, only not including i
+        tempValues = values;
+        tempValues.erase(tempValues.begin()+i);
+
+    std::cout << "tempValues after removing index " << i << ": ";
+    for (const auto& val : tempValues) {
+    std::cout << val << " ";
+    }
+    std::cout << std::endl;
+
+        for(int j = 0; j < tempValues.size()-1;j++){
+            bool isAdjacent = isArrayAdjacent(tempValues);
+            bool isSorted = isArraySorted(tempValues);
+            
+            if(isAdjacent  && isSorted){ 
+                return true;
+                //isRedeemable = true; 
+                cout << " This one is redeemable " << endl; 
+                //break;
+            }else{
+                //cout << " This one is not redeemable " << endl;
+                //isRedeemable = false;
+                continue;
+            }
+            //isRedeemable = false;
+        }
+       // return false;
+    }
+    return false;
+}
+
+
 void problem3(){
 
     ifstream myFileStream("matrix.txt");
@@ -147,55 +193,22 @@ void problem3(){
 
         bool isSorted = isArraySorted(values);
         bool isAdjacent = isArrayAdjacent(values);
-        //cout << "Is adjacent is " << isAdjacent << endl;
-        //cout << "Is Sorted is " << isSorted << endl;
-        /*
-        if (is_sorted(values.begin(), values.end()) || is_sorted(values.begin(), values.end(), comp)){
-                isSorted = true;
-                cout << line << "  is Sorted" << endl;
-            }else{
-                isSorted = false;
-            }
-
-        if(isSorted == true){
-            cout << "is sorted is true" << endl;
-        }
-
-        for(int i = 0;i < values.size()-1;i++){
-                if(((abs(values[i] - values[i+1]) <= 3) && (abs(values[i] - values[i+1]) != 0))){
-                    isAdjacent = true;               
-                }else{  
-                    isAdjacent = false;
-                    break;
-                }
-            }
-            */
-        if(isAdjacent == true && isSorted == true){
-            
+        
+        if(isAdjacent == true && isSorted == true){    
             total++;      
-            cout << total << endl; 
+             
+        }else{
+            //question 3 extension 
+            if(isVectorRedeemable(values)){
+                total++;
+            }
         }
 
+        cout << total << endl;
     }
 }
 
 
 int main(){
-    
-
-    // problem 1 answer
-    //int total = problem1();
-    //cout << "the answer to problem 1 is : " << total << endl;  
-    
-    // problem 2 answer
-    //int total = problem2();
-    //cout << "the answer to problem 2 is : " << total << endl;
-
-    // problem 3 answer
-    //int total = problem3();
-    //cout << "the answer to problem 3 is : " << total << endl;
     problem3();
-
-    
-
 }
