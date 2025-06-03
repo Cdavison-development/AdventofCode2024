@@ -1,6 +1,8 @@
 #include "day_1.cpp"
 #include "day_2.cpp"
+#include "day_3.cpp"
 
 int main(){
-    problem3();
+    problem4();
+    return 0;
 }

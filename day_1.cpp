@@ -38,8 +38,8 @@ int problem1()
     stable_sort(list2.begin(), list2.end());
 
 
-
-    for(int i=0; i < list1.size(); i++){
+    //int size_t = list1.size();
+    for(std::size_t i=0; i < list1.size(); i++){
         total += abs(list1[i]-list2[i]);
     }
     cout << total << endl;
